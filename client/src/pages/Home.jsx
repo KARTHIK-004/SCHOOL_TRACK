@@ -1,14 +1,22 @@
-import { Button } from "@/components/ui/button";
-import { ModeToggle } from "@/components/ui/mode-toggle";
 import React from "react";
+import Navbar from "@/components/Home/Navbar";
+import Footer from "@/components/Home/Footer";
+import Hero from "@/components/Home/HeroSection";
+import FeaturesSection from "@/components/Home/FeaturesSection";
+import Pricing from "@/components/Home/Pricing";
+import Testimonials from "@/components/Home/Testimonials";
+import ContactUs from "@/components/Home/ContactUs";
 
 const Home = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-svh">
-      <div className="flex items-center gap-4">
-        <Button>Click me</Button>
-        <ModeToggle />
-      </div>
+    <div>
+      <Navbar />
+      <Hero />
+      <FeaturesSection />
+      <Pricing />
+      <Testimonials />
+      <ContactUs />
+      <Footer />
     </div>
   );
 };
