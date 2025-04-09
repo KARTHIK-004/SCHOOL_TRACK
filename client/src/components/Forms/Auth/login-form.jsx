@@ -6,35 +6,31 @@ import { Lock, LogIn, Mail } from "lucide-react";
 import TextInput from "@/components/FormInputs/TextInput";
 import PasswordInput from "@/components/FormInputs/PasswordInput";
 import SubmitButton from "@/components/FormInputs/SubmitButton";
-import { Skeleton } from "@/components/ui/skeleton";
 
 import { toast } from "sonner";
 
+import { useAuth } from "@/context/AuthContext";
+
 export default function LoginForm() {
+  const { login } = useAuth();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm();
-
-  const navigate = useNavigate();
 
   async function onSubmit(data) {
     setIsLoading(true);
     try {
-      //   await signIn(data.email, data.password);
-      toast.success("Success", {
-        description: "Welcome back!",
-      });
-      reset();
-      navigate("/dashboard");
+      await login(data);
+      toast.success("Welcome back!");
+      navigate("/");
     } catch (error) {
-      console.error(error);
       toast.error("Sign In Failed", {
-        description: "An error occurred during sign in",
+        description: error.message || "An error occurred during sign in",
       });
     } finally {
       setIsLoading(false);
@@ -75,10 +71,10 @@ export default function LoginForm() {
         <p className="text-sm text-muted-foreground">
           Don't have an account?{" "}
           <Link
-            to="/sign-up"
+            to="/register"
             className="font-medium text-primary hover:underline"
           >
-            Sign up
+            Register
           </Link>
         </p>
       </div>

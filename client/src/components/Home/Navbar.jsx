@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Menu, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -29,55 +29,16 @@ import {
 } from "@/components/Home/NavbarLinks";
 import Logo from "@/components/logo";
 import { ModeToggle } from "@/components/ui/mode-toggle";
+import { useAuth } from "@/context/AuthContext";
 
 const Navbar = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [user, setUser] = useState(null);
+  const { user, isAuthenticated, isLoading, logout } = useAuth();
   const navigate = useNavigate();
 
-  const fetchUserData = async () => {
-    try {
-      setIsLoading(true);
-      setTimeout(() => {
-        const demoUser = {
-          name: "John Doe",
-          email: "john.doe@example.com",
-          role: "Administrator",
-          avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=John",
-        };
-
-        setUser(demoUser);
-        setIsLoading(false);
-      }, 1000);
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-      setIsLoading(false);
-    }
+  const handleLogout = () => {
+    logout();
+    navigate("/");
   };
-
-  const handleLogout = async () => {
-    try {
-      setIsLoading(true);
-      setTimeout(() => {
-        localStorage.removeItem("token");
-        setUser(null);
-        setIsLoading(false);
-        navigate("/");
-        console.log("Successfully logged out");
-      }, 500);
-    } catch (error) {
-      console.error("Error during logout:", error);
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      fetchUserData();
-    } else {
-      setIsLoading(false);
-    }
-  }, []);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 ">
@@ -143,7 +104,7 @@ const Navbar = () => {
 
         <div className="hidden md:flex items-center space-x-4">
           <ModeToggle />
-          {localStorage.getItem("token") ? (
+          {isAuthenticated ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -154,7 +115,7 @@ const Navbar = () => {
                     <Skeleton className="h-8 w-8 rounded-full" />
                   ) : (
                     <Avatar>
-                      <AvatarImage src={user?.avatarUrl} alt={user?.name} />
+                      <AvatarImage src={user?.avatar} alt={user?.name} />
                       <AvatarFallback>
                         {user?.name ? user.name.charAt(0) : ""}
                       </AvatarFallback>
@@ -168,7 +129,7 @@ const Navbar = () => {
                     <p className="text-sm font-medium leading-none">
                       {user?.name}
                     </p>
-                    <p className="text-xs leading-none text-muted-foreground">
+                    <p className="text-xs leading-none text-muted-foreground uppercase">
                       {user?.role || "User"}
                     </p>
                   </div>
