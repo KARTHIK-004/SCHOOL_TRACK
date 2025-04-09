@@ -5,6 +5,8 @@ import Login from "./pages/auth/Login";
 import BookNow from "./pages/BookNow";
 import { AuthProvider } from "./context/AuthContext";
 import Register from "./pages/auth/Register";
+import Dashboard from "./pages/dashboard/Dashboard";
+import Sidebar from "./pages/dashboard/Sidebar";
 
 const App = () => {
   return (
@@ -15,6 +17,9 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/book-demo" element={<BookNow />} />
+          <Route path="/dashboard" element={<Sidebar />}>
+            <Route index element={<Dashboard />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </AuthProvider>

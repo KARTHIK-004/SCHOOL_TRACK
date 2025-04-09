@@ -102,6 +102,10 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -127,4 +131,27 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: var(--radius-md);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ring);
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) var(--background);
 }
