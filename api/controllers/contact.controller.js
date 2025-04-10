@@ -1,20 +1,53 @@
 import Contact from "../models/contact.model.js";
 
-export const createContact = async (req, res) => {
+export const submitContact = async (req, res) => {
   try {
-    const contact = new Contact(req.body);
-    await contact.save();
+    const {
+      name,
+      email,
+      phone,
+      school,
+      country,
+      website,
+      students,
+      role,
+      mediaSource,
+      points,
+    } = req.body;
 
+    const existingContact = await Contact.findOne({ email });
+    if (existingContact) {
+      return res.status(400).json({
+        status: "error",
+        message:
+          "This email has already been submitted. Please use a different email address.",
+      });
+    }
+
+    const newContact = new Contact({
+      name,
+      email,
+      phone,
+      school,
+      country,
+      website,
+      students,
+      role,
+      mediaSource,
+      points,
+    });
+
+    const savedContact = await newContact.save();
     res.status(201).json({
-      success: true,
-      message: "Contact form submitted successfully",
-      data: contact,
+      status: "success",
+      data: {
+        contact: savedContact,
+      },
     });
   } catch (error) {
     res.status(400).json({
-      success: false,
-      message: "Failed to submit contact form",
-      error: error.message,
+      status: "error",
+      message: error.message,
     });
   }
 };

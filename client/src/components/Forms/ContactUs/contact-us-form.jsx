@@ -15,6 +15,7 @@ function ContactUsForm() {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
 
   const { submitContact, isLoading } = useContact();
@@ -22,7 +23,8 @@ function ContactUsForm() {
   const onSubmit = async (data) => {
     try {
       await submitContact(data);
-      toast.success("Contact Submitted!");
+      toast.success("Submission Successful");
+      reset();
     } catch (error) {
       toast.error("Submission Failed", {
         description: error.message || "An error occurred during submission",
@@ -106,7 +108,7 @@ function ContactUsForm() {
         <ComboboxInput
           register={register}
           errors={errors}
-          name="media"
+          name="mediaSource"
           label="How did you hear about us?"
           options={mediaSources}
           placeholder="Select a platform"

@@ -48,6 +48,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Link } from "react-router-dom";
+import WelcomeBanner from "@/components/Dashboard/WelcomeBanner";
 
 export default function AdminDashboard() {
   return (
@@ -57,13 +58,13 @@ export default function AdminDashboard() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold tracking-tight">
-              Super Administration
+              Administration
             </h1>
             <p className="text-muted-foreground">
               Manage all schools and administrators
             </p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="hidden md:grid lg:grid-cols-2 items-center gap-2">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="sm" className="h-8">
@@ -74,24 +75,24 @@ export default function AdminDashboard() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem asChild>
-                  <Link href="/new-announcement">New Announcement</Link>
+                  <Link to="/dashboard/new-announcement">New Announcement</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link href="/new-admission">New Admission</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/add-teacher">Add Teacher</Link>
+                  <Link to="/dashboard/new-admission">New Admission</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>Add School</DropdownMenuItem>
                 <DropdownMenuItem>Add School Admin</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            <Button size="sm" className="h-8">
-              <Settings className="mr-2 h-3.5 w-3.5" />
-              System Settings
-            </Button>
+            <Link to="/dashboard/settings">
+              <Button size="sm" className="h-8">
+                <Settings className="mr-2 h-4 w-4" />
+                System Settings
+              </Button>
+            </Link>
           </div>
         </div>
+        <WelcomeBanner />
 
         {/* System Overview */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -158,7 +159,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Tabs Section */}
-        <Tabs defaultValue="schools" className="space-y-4">
+        {/* <Tabs defaultValue="schools" className="space-y-4">
           <TabsList>
             <TabsTrigger value="schools">Schools</TabsTrigger>
             <TabsTrigger value="admins">School Admins</TabsTrigger>
@@ -836,7 +837,7 @@ export default function AdminDashboard() {
               </CardFooter>
             </Card>
           </TabsContent>
-        </Tabs>
+        </Tabs> */}
 
         {/* Recent Announcements */}
         <Card>
@@ -848,7 +849,7 @@ export default function AdminDashboard() {
               </CardDescription>
             </div>
             <Button size="sm" asChild>
-              <Link href="/new-announcement">
+              <Link to="/new-announcement">
                 <Plus className="mr-2 h-4 w-4" />
                 New Announcement
               </Link>

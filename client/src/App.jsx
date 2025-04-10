@@ -7,21 +7,24 @@ import { AuthProvider } from "./context/AuthContext";
 import Register from "./pages/auth/Register";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Sidebar from "./pages/dashboard/Sidebar";
+import { ContactProvider } from "./context/ContactContext";
 
 const App = () => {
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/contact-us" element={<BookNow />} />
-          <Route path="/dashboard" element={<Sidebar />}>
-            <Route index element={<Dashboard />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <ContactProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/contact-us" element={<BookNow />} />
+            <Route path="/dashboard" element={<Sidebar />}>
+              <Route index element={<Dashboard />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </ContactProvider>
     </AuthProvider>
   );
 };

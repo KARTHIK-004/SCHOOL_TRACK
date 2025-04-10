@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { submitContactForm } from "@/api/contactApi";
+import { submitContactForm } from "@/api/contactAPI";
 
 const ContactContext = createContext({
   isLoading: false,

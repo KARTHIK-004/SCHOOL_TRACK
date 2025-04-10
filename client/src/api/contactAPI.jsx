@@ -3,7 +3,7 @@ import axiosInstance from "./axiosInstance";
 // Contact Form API
 export const submitContactForm = async (formData) => {
   try {
-    const response = await axiosInstance.post("/contacts/create", formData);
+    const response = await axiosInstance.post("/contacts/submit", formData);
     return response.data;
   } catch (error) {
     throw new Error(
