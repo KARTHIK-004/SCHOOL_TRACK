@@ -6,21 +6,28 @@ import TextInput from "@/components/FormInputs/TextInput";
 import { countries } from "@/utils/contactOptions";
 import { mediaSources, roles } from "@/utils/contactOptions";
 import { Send } from "lucide-react";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useContact } from "@/context/ContactContext";
+import { toast } from "sonner";
 
 function ContactUsForm() {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm();
 
-  const [isLoading, setIsLoading] = useState(false);
+  const { submitContact, isLoading } = useContact();
 
   const onSubmit = async (data) => {
-    setIsLoading(true);
+    try {
+      await submitContact(data);
+      toast.success("Contact Submitted!");
+    } catch (error) {
+      toast.error("Submission Failed", {
+        description: error.message || "An error occurred during submission",
+      });
+    }
   };
 
   return (

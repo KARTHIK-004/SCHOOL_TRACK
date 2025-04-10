@@ -1,14 +1,8 @@
 import {
-  Bell,
   Building,
-  CheckIcon,
+  ChevronDown,
   CreditCard,
-  Download,
-  FileCheck,
   FileText,
-  Globe,
-  HelpCircle,
-  LockIcon,
   MoreHorizontal,
   Plus,
   Search,
@@ -28,7 +22,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import {
   DropdownMenu,
@@ -54,8 +47,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Link } from "react-router-dom";
 
-export default function SystemAdminDashboard() {
+export default function AdminDashboard() {
   return (
     <div className="flex min-h-screen w-full flex-col">
       {/* Main Content */}
@@ -63,17 +57,35 @@ export default function SystemAdminDashboard() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold tracking-tight">
-              System Administration
+              Super Administration
             </h1>
             <p className="text-muted-foreground">
-              Manage all schools and system settings
+              Manage all schools and administrators
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" className="h-8">
-              <Download className="mr-2 h-3.5 w-3.5" />
-              Export
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm" className="h-8">
+                  <Plus className="mr-2 h-3.5 w-3.5" />
+                  Create New
+                  <ChevronDown className="ml-2 h-3.5 w-3.5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem asChild>
+                  <Link href="/new-announcement">New Announcement</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/new-admission">New Admission</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/add-teacher">Add Teacher</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>Add School</DropdownMenuItem>
+                <DropdownMenuItem>Add School Admin</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <Button size="sm" className="h-8">
               <Settings className="mr-2 h-3.5 w-3.5" />
               System Settings
@@ -94,19 +106,21 @@ export default function SystemAdminDashboard() {
               <div className="text-2xl font-bold">24</div>
               <div className="flex items-center text-xs text-muted-foreground">
                 <span className="text-green-500 mr-1">+2</span>
-                <span>added this year</span>
+                <span>added this month</span>
               </div>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Users</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                School Admins
+              </CardTitle>
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">86,452</div>
+              <div className="text-2xl font-bold">48</div>
               <div className="flex items-center text-xs text-muted-foreground">
-                <span className="text-green-500 mr-1">+12.5%</span>
+                <span className="text-green-500 mr-1">+5</span>
                 <span>from last month</span>
               </div>
             </CardContent>
@@ -114,14 +128,14 @@ export default function SystemAdminDashboard() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
-                System Uptime
+                Total Students
               </CardTitle>
-              <Server className="h-4 w-4 text-muted-foreground" />
+              <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">99.98%</div>
+              <div className="text-2xl font-bold">86,452</div>
               <div className="flex items-center text-xs text-muted-foreground">
-                <span className="text-green-500 mr-1">+0.1%</span>
+                <span className="text-green-500 mr-1">+12.5%</span>
                 <span>from last month</span>
               </div>
             </CardContent>
@@ -143,118 +157,13 @@ export default function SystemAdminDashboard() {
           </Card>
         </div>
 
-        {/* System Health */}
-        <Card>
-          <CardHeader>
-            <CardTitle>System Health</CardTitle>
-            <CardDescription>
-              Current status of system components and services
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-8">
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <Card className="bg-muted/50">
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-sm">Database</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center">
-                      <div className="mr-2 h-3 w-3 rounded-full bg-green-500"></div>
-                      <div className="text-lg font-bold">Operational</div>
-                    </div>
-                    <div className="mt-2 flex items-center text-xs">
-                      <span className="text-green-500 mr-1">100%</span>
-                      <span className="text-muted-foreground">
-                        uptime in last 30 days
-                      </span>
-                    </div>
-                  </CardContent>
-                </Card>
-                <Card className="bg-muted/50">
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-sm">API Services</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center">
-                      <div className="mr-2 h-3 w-3 rounded-full bg-green-500"></div>
-                      <div className="text-lg font-bold">Operational</div>
-                    </div>
-                    <div className="mt-2 flex items-center text-xs">
-                      <span className="text-green-500 mr-1">99.9%</span>
-                      <span className="text-muted-foreground">
-                        uptime in last 30 days
-                      </span>
-                    </div>
-                  </CardContent>
-                </Card>
-                <Card className="bg-muted/50">
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-sm">Storage</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center">
-                      <div className="mr-2 h-3 w-3 rounded-full bg-green-500"></div>
-                      <div className="text-lg font-bold">Operational</div>
-                    </div>
-                    <div className="mt-2 flex items-center text-xs">
-                      <span className="text-green-500 mr-1">100%</span>
-                      <span className="text-muted-foreground">
-                        uptime in last 30 days
-                      </span>
-                    </div>
-                  </CardContent>
-                </Card>
-                <Card className="bg-muted/50">
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-sm">Authentication</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center">
-                      <div className="mr-2 h-3 w-3 rounded-full bg-green-500"></div>
-                      <div className="text-lg font-bold">Operational</div>
-                    </div>
-                    <div className="mt-2 flex items-center text-xs">
-                      <span className="text-green-500 mr-1">99.95%</span>
-                      <span className="text-muted-foreground">
-                        uptime in last 30 days
-                      </span>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-
-              <div>
-                <h3 className="text-lg font-medium mb-4">System Resources</h3>
-                <div className="space-y-4">
-                  {systemResources.map((resource) => (
-                    <div key={resource.name} className="space-y-1">
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="font-medium">{resource.name}</span>
-                        <span>
-                          {resource.used} / {resource.total} (
-                          {Math.round((resource.used / resource.total) * 100)}%)
-                        </span>
-                      </div>
-                      <Progress
-                        value={(resource.used / resource.total) * 100}
-                        className="h-2"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
         {/* Tabs Section */}
         <Tabs defaultValue="schools" className="space-y-4">
           <TabsList>
-            <TabsTrigger value="schools">Schools Management</TabsTrigger>
-            <TabsTrigger value="users">User Management</TabsTrigger>
-            <TabsTrigger value="billing">Billing & Subscriptions</TabsTrigger>
-            <TabsTrigger value="security">Security & Compliance</TabsTrigger>
+            <TabsTrigger value="schools">Schools</TabsTrigger>
+            <TabsTrigger value="admins">School Admins</TabsTrigger>
+            <TabsTrigger value="analytics">Analytics</TabsTrigger>
+            <TabsTrigger value="billing">Billing</TabsTrigger>
           </TabsList>
 
           <TabsContent value="schools" className="space-y-4">
@@ -285,7 +194,7 @@ export default function SystemAdminDashboard() {
                       <TableHead>Location</TableHead>
                       <TableHead>Students</TableHead>
                       <TableHead>Staff</TableHead>
-                      <TableHead>Subscription</TableHead>
+                      <TableHead>Admins</TableHead>
                       <TableHead>Status</TableHead>
                       <TableHead className="text-right">Actions</TableHead>
                     </TableRow>
@@ -308,7 +217,7 @@ export default function SystemAdminDashboard() {
                         <TableCell>{school.location}</TableCell>
                         <TableCell>{school.students}</TableCell>
                         <TableCell>{school.staff}</TableCell>
-                        <TableCell>{school.subscription}</TableCell>
+                        <TableCell>{school.admins}</TableCell>
                         <TableCell>
                           <Badge
                             variant={
@@ -335,8 +244,9 @@ export default function SystemAdminDashboard() {
                             <DropdownMenuContent align="end">
                               <DropdownMenuItem>View Details</DropdownMenuItem>
                               <DropdownMenuItem>Edit School</DropdownMenuItem>
+                              <DropdownMenuItem>Manage Admins</DropdownMenuItem>
                               <DropdownMenuItem>
-                                Manage Subscription
+                                View Analytics
                               </DropdownMenuItem>
                               <DropdownMenuSeparator />
                               <DropdownMenuItem className="text-destructive">
@@ -480,30 +390,30 @@ export default function SystemAdminDashboard() {
             </div>
           </TabsContent>
 
-          <TabsContent value="users" className="space-y-4">
+          <TabsContent value="admins" className="space-y-4">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between">
                 <div>
-                  <CardTitle>System Users</CardTitle>
+                  <CardTitle>School Administrators</CardTitle>
                   <CardDescription>
-                    Manage system-level users and permissions
+                    Manage school-level administrators
                   </CardDescription>
                 </div>
                 <div className="flex items-center gap-2">
                   <Select defaultValue="all">
                     <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Filter by Role" />
+                      <SelectValue placeholder="Filter by School" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="all">All Roles</SelectItem>
-                      <SelectItem value="admin">System Admins</SelectItem>
-                      <SelectItem value="support">Support Staff</SelectItem>
-                      <SelectItem value="manager">Account Managers</SelectItem>
+                      <SelectItem value="all">All Schools</SelectItem>
+                      <SelectItem value="dps">Delhi Public School</SelectItem>
+                      <SelectItem value="sma">St. Mary's Academy</SelectItem>
+                      <SelectItem value="mhs">Modern High School</SelectItem>
                     </SelectContent>
                   </Select>
                   <Button size="sm">
                     <Plus className="mr-2 h-4 w-4" />
-                    Add User
+                    Add Admin
                   </Button>
                 </div>
               </CardHeader>
@@ -513,6 +423,7 @@ export default function SystemAdminDashboard() {
                     <TableRow>
                       <TableHead>Name</TableHead>
                       <TableHead>Email</TableHead>
+                      <TableHead>School</TableHead>
                       <TableHead>Role</TableHead>
                       <TableHead>Last Login</TableHead>
                       <TableHead>Status</TableHead>
@@ -520,27 +431,33 @@ export default function SystemAdminDashboard() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {systemUsers.map((user) => (
-                      <TableRow key={user.id}>
+                    {schoolAdmins.map((admin) => (
+                      <TableRow key={admin.id}>
                         <TableCell className="font-medium">
                           <div className="flex items-center gap-2">
                             <Avatar className="h-8 w-8">
-                              <AvatarImage src={user.avatar} alt={user.name} />
-                              <AvatarFallback>{user.initials}</AvatarFallback>
+                              <AvatarImage
+                                src={admin.avatar}
+                                alt={admin.name}
+                              />
+                              <AvatarFallback>{admin.initials}</AvatarFallback>
                             </Avatar>
-                            {user.name}
+                            {admin.name}
                           </div>
                         </TableCell>
-                        <TableCell>{user.email}</TableCell>
-                        <TableCell>{user.role}</TableCell>
-                        <TableCell>{user.lastLogin}</TableCell>
+                        <TableCell>{admin.email}</TableCell>
+                        <TableCell>{admin.school}</TableCell>
+                        <TableCell>{admin.role}</TableCell>
+                        <TableCell>{admin.lastLogin}</TableCell>
                         <TableCell>
                           <Badge
                             variant={
-                              user.status === "Active" ? "default" : "secondary"
+                              admin.status === "Active"
+                                ? "default"
+                                : "secondary"
                             }
                           >
-                            {user.status}
+                            {admin.status}
                           </Badge>
                         </TableCell>
                         <TableCell className="text-right">
@@ -557,7 +474,10 @@ export default function SystemAdminDashboard() {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
                               <DropdownMenuItem>View Profile</DropdownMenuItem>
-                              <DropdownMenuItem>Edit User</DropdownMenuItem>
+                              <DropdownMenuItem>Edit Admin</DropdownMenuItem>
+                              <DropdownMenuItem>
+                                Reset Password
+                              </DropdownMenuItem>
                               <DropdownMenuItem>
                                 Manage Permissions
                               </DropdownMenuItem>
@@ -573,28 +493,43 @@ export default function SystemAdminDashboard() {
                   </TableBody>
                 </Table>
               </CardContent>
+              <CardFooter className="flex justify-between">
+                <div className="text-sm text-muted-foreground">
+                  Showing 5 of 48 administrators
+                </div>
+                <div className="flex items-center gap-2">
+                  <Button variant="outline" size="sm" disabled>
+                    Previous
+                  </Button>
+                  <Button variant="outline" size="sm">
+                    Next
+                  </Button>
+                </div>
+              </CardFooter>
             </Card>
 
             <div className="grid gap-4 md:grid-cols-2">
               <Card>
                 <CardHeader>
-                  <CardTitle>User Activity</CardTitle>
-                  <CardDescription>Recent system user activity</CardDescription>
+                  <CardTitle>Admin Activity</CardTitle>
+                  <CardDescription>
+                    Recent administrator activity
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {userActivities.map((activity, index) => (
+                    {adminActivities.map((activity, index) => (
                       <div key={index} className="flex items-start gap-4">
                         <Avatar className="mt-1 h-8 w-8">
                           <AvatarImage
                             src={activity.avatar}
-                            alt={activity.user}
+                            alt={activity.admin}
                           />
                           <AvatarFallback>{activity.initials}</AvatarFallback>
                         </Avatar>
                         <div className="grid gap-1">
                           <p className="text-sm font-medium leading-none">
-                            {activity.user}
+                            {activity.admin}
                           </p>
                           <p className="text-sm text-muted-foreground">
                             {activity.action}
@@ -613,7 +548,7 @@ export default function SystemAdminDashboard() {
                 <CardHeader>
                   <CardTitle>Permission Groups</CardTitle>
                   <CardDescription>
-                    Manage system permission groups
+                    Manage administrator permission groups
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -630,7 +565,7 @@ export default function SystemAdminDashboard() {
                             </div>
                             <div className="flex items-center gap-2">
                               <Badge variant="outline">
-                                {group.users} users
+                                {group.admins} admins
                               </Badge>
                               <Button
                                 variant="ghost"
@@ -654,12 +589,126 @@ export default function SystemAdminDashboard() {
             </div>
           </TabsContent>
 
+          <TabsContent value="analytics" className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle>System Analytics</CardTitle>
+                <CardDescription>
+                  Overview of system performance and usage
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-8">
+                  <div className="grid gap-4 md:grid-cols-4">
+                    <Card className="bg-muted/50">
+                      <CardHeader className="pb-2">
+                        <CardTitle className="text-sm">Active Users</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-2xl font-bold">24,892</div>
+                        <div className="mt-2 flex items-center text-xs">
+                          <span className="text-green-500 mr-1">+18%</span>
+                          <span className="text-muted-foreground">
+                            from last month
+                          </span>
+                        </div>
+                      </CardContent>
+                    </Card>
+                    <Card className="bg-muted/50">
+                      <CardHeader className="pb-2">
+                        <CardTitle className="text-sm">
+                          Average Session Time
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-2xl font-bold">32 min</div>
+                        <div className="mt-2 flex items-center text-xs">
+                          <span className="text-green-500 mr-1">+5%</span>
+                          <span className="text-muted-foreground">
+                            from last month
+                          </span>
+                        </div>
+                      </CardContent>
+                    </Card>
+                    <Card className="bg-muted/50">
+                      <CardHeader className="pb-2">
+                        <CardTitle className="text-sm">System Uptime</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-2xl font-bold">99.98%</div>
+                        <div className="mt-2 flex items-center text-xs">
+                          <span className="text-green-500 mr-1">+0.1%</span>
+                          <span className="text-muted-foreground">
+                            from last month
+                          </span>
+                        </div>
+                      </CardContent>
+                    </Card>
+                    <Card className="bg-muted/50">
+                      <CardHeader className="pb-2">
+                        <CardTitle className="text-sm">
+                          Support Tickets
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-2xl font-bold">42</div>
+                        <div className="mt-2 flex items-center text-xs">
+                          <span className="text-green-500 mr-1">-12%</span>
+                          <span className="text-muted-foreground">
+                            from last month
+                          </span>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-medium mb-4">Feature Usage</h3>
+                    <div className="space-y-4">
+                      {featureUsage.map((feature) => (
+                        <div key={feature.name} className="space-y-1">
+                          <div className="flex items-center justify-between text-sm">
+                            <span className="font-medium">{feature.name}</span>
+                            <span>
+                              {feature.usageCount} ({feature.percentage}%)
+                            </span>
+                          </div>
+                          <Progress
+                            value={feature.percentage}
+                            className="h-2"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+              <CardFooter className="flex justify-between">
+                <Button variant="outline">
+                  <FileText className="mr-2 h-4 w-4" />
+                  Generate Report
+                </Button>
+                <Select defaultValue="30">
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Time Period" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="7">Last 7 days</SelectItem>
+                    <SelectItem value="30">Last 30 days</SelectItem>
+                    <SelectItem value="90">Last 90 days</SelectItem>
+                    <SelectItem value="365">Last year</SelectItem>
+                  </SelectContent>
+                </Select>
+              </CardFooter>
+            </Card>
+          </TabsContent>
+
           <TabsContent value="billing" className="space-y-4">
             <Card>
               <CardHeader>
-                <CardTitle>Subscription Management</CardTitle>
+                <CardTitle>Billing Overview</CardTitle>
                 <CardDescription>
-                  Manage school subscriptions and billing
+                  Manage subscriptions and billing for all schools
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -730,63 +779,18 @@ export default function SystemAdminDashboard() {
 
                   <div>
                     <h3 className="text-lg font-medium mb-4">
-                      Subscription Plans
-                    </h3>
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>Plan Name</TableHead>
-                          <TableHead>Features</TableHead>
-                          <TableHead>Price</TableHead>
-                          <TableHead>Active Schools</TableHead>
-                          <TableHead>Status</TableHead>
-                          <TableHead className="text-right">Actions</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {subscriptionPlans.map((plan) => (
-                          <TableRow key={plan.id}>
-                            <TableCell className="font-medium">
-                              {plan.name}
-                            </TableCell>
-                            <TableCell>{plan.features}</TableCell>
-                            <TableCell>₹{plan.price}/year</TableCell>
-                            <TableCell>{plan.activeSchools}</TableCell>
-                            <TableCell>
-                              <Badge
-                                variant={
-                                  plan.status === "Active"
-                                    ? "default"
-                                    : "secondary"
-                                }
-                              >
-                                {plan.status}
-                              </Badge>
-                            </TableCell>
-                            <TableCell className="text-right">
-                              <Button variant="ghost" size="sm">
-                                Edit Plan
-                              </Button>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </div>
-
-                  <div>
-                    <h3 className="text-lg font-medium mb-4">
                       Recent Transactions
                     </h3>
                     <Table>
                       <TableHeader>
                         <TableRow>
-                          <TableHead>Transaction ID</TableHead>
+                          <TableHead>Invoice ID</TableHead>
                           <TableHead>School</TableHead>
                           <TableHead>Date</TableHead>
                           <TableHead>Amount</TableHead>
                           <TableHead>Plan</TableHead>
                           <TableHead>Status</TableHead>
+                          <TableHead className="text-right">Actions</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
@@ -808,234 +812,68 @@ export default function SystemAdminDashboard() {
                                 {transaction.status}
                               </Badge>
                             </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="security" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>Security & Compliance</CardTitle>
-                <CardDescription>
-                  Manage system security and compliance settings
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-8">
-                  <div className="grid gap-4 md:grid-cols-3">
-                    <Card className="bg-muted/50">
-                      <CardContent className="p-4">
-                        <div className="flex flex-col items-center justify-center text-center">
-                          <Shield className="mb-2 h-8 w-8 text-muted-foreground" />
-                          <p className="text-sm font-medium">Security Status</p>
-                          <Badge className="mt-1" variant="default">
-                            Secure
-                          </Badge>
-                          <p className="text-xs text-muted-foreground mt-1">
-                            Last scan: Today, 08:45 AM
-                          </p>
-                        </div>
-                      </CardContent>
-                    </Card>
-                    <Card className="bg-muted/50">
-                      <CardContent className="p-4">
-                        <div className="flex flex-col items-center justify-center text-center">
-                          <LockIcon className="mb-2 h-8 w-8 text-muted-foreground" />
-                          <p className="text-sm font-medium">Authentication</p>
-                          <Badge className="mt-1" variant="default">
-                            2FA Enabled
-                          </Badge>
-                          <p className="text-xs text-muted-foreground mt-1">
-                            For all system admins
-                          </p>
-                        </div>
-                      </CardContent>
-                    </Card>
-                    <Card className="bg-muted/50">
-                      <CardContent className="p-4">
-                        <div className="flex flex-col items-center justify-center text-center">
-                          <FileCheck className="mb-2 h-8 w-8 text-muted-foreground" />
-                          <p className="text-sm font-medium">Compliance</p>
-                          <Badge className="mt-1" variant="default">
-                            Compliant
-                          </Badge>
-                          <p className="text-xs text-muted-foreground mt-1">
-                            GDPR, COPPA, ISO 27001
-                          </p>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </div>
-
-                  <div>
-                    <h3 className="text-lg font-medium mb-4">Security Logs</h3>
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>Event</TableHead>
-                          <TableHead>User</TableHead>
-                          <TableHead>IP Address</TableHead>
-                          <TableHead>Location</TableHead>
-                          <TableHead>Date & Time</TableHead>
-                          <TableHead>Status</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {securityLogs.map((log, index) => (
-                          <TableRow key={index}>
-                            <TableCell className="font-medium">
-                              {log.event}
-                            </TableCell>
-                            <TableCell>{log.user}</TableCell>
-                            <TableCell>{log.ipAddress}</TableCell>
-                            <TableCell>{log.location}</TableCell>
-                            <TableCell>{log.dateTime}</TableCell>
-                            <TableCell>
-                              <Badge
-                                variant={
-                                  log.status === "Success"
-                                    ? "default"
-                                    : "destructive"
-                                }
-                              >
-                                {log.status}
-                              </Badge>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </div>
-
-                  <div className="grid gap-4 md:grid-cols-2">
-                    <Card>
-                      <CardHeader>
-                        <CardTitle>Data Backup Status</CardTitle>
-                        <CardDescription>
-                          System data backup information
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="space-y-4">
-                          <div className="flex items-center justify-between">
-                            <span className="text-sm font-medium">
-                              Last Successful Backup
-                            </span>
-                            <span className="text-sm">Today, 03:00 AM</span>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <span className="text-sm font-medium">
-                              Backup Frequency
-                            </span>
-                            <span className="text-sm">Daily</span>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <span className="text-sm font-medium">
-                              Retention Period
-                            </span>
-                            <span className="text-sm">90 days</span>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <span className="text-sm font-medium">
-                              Backup Storage
-                            </span>
-                            <span className="text-sm">
-                              Encrypted Cloud Storage
-                            </span>
-                          </div>
-                          <Button variant="outline" className="w-full">
-                            View Backup History
-                          </Button>
-                        </div>
-                      </CardContent>
-                    </Card>
-
-                    <Card>
-                      <CardHeader>
-                        <CardTitle>Compliance Reports</CardTitle>
-                        <CardDescription>
-                          System compliance documentation
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="space-y-4">
-                          {complianceReports.map((report, index) => (
-                            <div
-                              key={index}
-                              className="flex items-center justify-between"
-                            >
-                              <div>
-                                <p className="text-sm font-medium">
-                                  {report.name}
-                                </p>
-                                <p className="text-xs text-muted-foreground">
-                                  Generated: {report.date}
-                                </p>
-                              </div>
-                              <Button variant="outline" size="sm">
-                                <FileText className="mr-2 h-4 w-4" />
-                                Download
+                            <TableCell className="text-right">
+                              <Button variant="ghost" size="sm">
+                                View Details
                               </Button>
-                            </div>
-                          ))}
-                        </div>
-                      </CardContent>
-                    </Card>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
                   </div>
                 </div>
               </CardContent>
+              <CardFooter className="flex justify-between">
+                <Button variant="outline">
+                  <FileText className="mr-2 h-4 w-4" />
+                  Generate Billing Report
+                </Button>
+                <Button>
+                  <Plus className="mr-2 h-4 w-4" />
+                  Create Invoice
+                </Button>
+              </CardFooter>
             </Card>
           </TabsContent>
         </Tabs>
 
-        {/* System Notifications */}
+        {/* Recent Announcements */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
             <div>
-              <CardTitle>System Notifications</CardTitle>
+              <CardTitle>Recent Announcements</CardTitle>
               <CardDescription>
-                Recent system alerts and notifications
+                System-wide announcements and notices
               </CardDescription>
             </div>
-            <Button variant="outline" size="sm">
-              <Bell className="mr-2 h-4 w-4" />
-              Notification Settings
+            <Button size="sm" asChild>
+              <Link href="/new-announcement">
+                <Plus className="mr-2 h-4 w-4" />
+                New Announcement
+              </Link>
             </Button>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {systemNotifications.map((notification, index) => (
-                <div key={index} className="flex items-start gap-4">
-                  <div
-                    className={`mt-1 flex h-8 w-8 items-center justify-center rounded-full ${getNotificationTypeColor(
-                      notification.type
-                    )}`}
-                  >
-                    {getNotificationTypeIcon(notification.type)}
+              {announcements.map((announcement, index) => (
+                <div key={index} className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-semibold">{announcement.title}</h3>
+                    <Badge variant="outline">{announcement.date}</Badge>
                   </div>
-                  <div className="flex-1 space-y-1">
-                    <div className="flex items-center justify-between">
-                      <p className="text-sm font-medium">
-                        {notification.title}
-                      </p>
-                      <Badge variant="outline">{notification.time}</Badge>
+                  <p className="text-sm text-muted-foreground">
+                    {announcement.content}
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center text-xs text-muted-foreground">
+                      <span>Posted by: {announcement.postedBy}</span>
+                      <span className="mx-2">•</span>
+                      <span>For: {announcement.for}</span>
                     </div>
-                    <p className="text-sm text-muted-foreground">
-                      {notification.message}
-                    </p>
-                    {notification.action && (
-                      <div className="flex justify-end">
-                        <Button variant="ghost" size="sm">
-                          {notification.action}
-                        </Button>
-                      </div>
-                    )}
+                    <Button variant="ghost" size="sm">
+                      Edit
+                    </Button>
                   </div>
                 </div>
               ))}
@@ -1044,6 +882,31 @@ export default function SystemAdminDashboard() {
         </Card>
       </main>
     </div>
+  );
+}
+
+// Icons
+function SchoolIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="m4 6 8-4 8 4" />
+      <path d="m18 10 4 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-8l4-2" />
+      <path d="M14 22v-4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v4" />
+      <path d="M18 5v17" />
+      <path d="M6 5v17" />
+      <circle cx="12" cy="9" r="2" />
+    </svg>
   );
 }
 
@@ -1074,44 +937,7 @@ function getBillingStatusBadge(status) {
   }
 }
 
-function getNotificationTypeColor(type) {
-  switch (type) {
-    case "info":
-      return "bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300";
-    case "warning":
-      return "bg-yellow-100 text-yellow-600 dark:bg-yellow-900 dark:text-yellow-300";
-    case "error":
-      return "bg-red-100 text-red-600 dark:bg-red-900 dark:text-red-300";
-    case "success":
-      return "bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300";
-    default:
-      return "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300";
-  }
-}
-
-function getNotificationTypeIcon(type) {
-  switch (type) {
-    case "info":
-      return <Globe className="h-4 w-4" />;
-    case "warning":
-      return <HelpCircle className="h-4 w-4" />;
-    case "error":
-      return <Shield className="h-4 w-4" />;
-    case "success":
-      return <CheckIcon className="h-4 w-4" />;
-    default:
-      return <Bell className="h-4 w-4" />;
-  }
-}
-
 // Sample data
-const systemResources = [
-  { name: "CPU Usage", used: 42, total: 100 },
-  { name: "Memory Usage", used: 8.2, total: 16 },
-  { name: "Storage Usage", used: 1.8, total: 5 },
-  { name: "Database Connections", used: 124, total: 500 },
-];
-
 const schools = [
   {
     id: 1,
@@ -1119,7 +945,7 @@ const schools = [
     location: "Delhi",
     students: 2845,
     staff: 142,
-    subscription: "Enterprise",
+    admins: 3,
     status: "Active",
     logo: "/placeholder.svg?height=32&width=32",
     initials: "DPS",
@@ -1130,7 +956,7 @@ const schools = [
     location: "Mumbai",
     students: 1850,
     staff: 98,
-    subscription: "Premium",
+    admins: 2,
     status: "Active",
     logo: "/placeholder.svg?height=32&width=32",
     initials: "SMA",
@@ -1141,7 +967,7 @@ const schools = [
     location: "Bangalore",
     students: 1620,
     staff: 85,
-    subscription: "Standard",
+    admins: 2,
     status: "Active",
     logo: "/placeholder.svg?height=32&width=32",
     initials: "MHS",
@@ -1152,7 +978,7 @@ const schools = [
     location: "Chennai",
     students: 1240,
     staff: 72,
-    subscription: "Premium",
+    admins: 2,
     status: "Active",
     logo: "/placeholder.svg?height=32&width=32",
     initials: "ISE",
@@ -1163,7 +989,7 @@ const schools = [
     location: "Hyderabad",
     students: 980,
     staff: 65,
-    subscription: "Standard",
+    admins: 1,
     status: "On Trial",
     logo: "/placeholder.svg?height=32&width=32",
     initials: "GA",
@@ -1212,146 +1038,123 @@ const schoolsByType = [
   { name: "Special Education", count: 1, percentage: 4, color: "#f59e0b" },
 ];
 
-const systemUsers = [
+const schoolAdmins = [
   {
     id: 1,
-    name: "Rahul Verma",
-    email: "rahul.verma@schoolmanage.com",
-    role: "System Admin",
+    name: "Dr. Sunita Desai",
+    email: "sunita.desai@dps.edu",
+    school: "Delhi Public School",
+    role: "Principal",
     lastLogin: "Today, 09:45 AM",
     status: "Active",
     avatar: "/placeholder.svg?height=32&width=32",
-    initials: "RV",
+    initials: "SD",
   },
   {
     id: 2,
-    name: "Priya Sharma",
-    email: "priya.sharma@schoolmanage.com",
-    role: "Support Staff",
+    name: "Rajesh Kumar",
+    email: "rajesh.kumar@dps.edu",
+    school: "Delhi Public School",
+    role: "Vice Principal",
     lastLogin: "Today, 08:30 AM",
     status: "Active",
     avatar: "/placeholder.svg?height=32&width=32",
-    initials: "PS",
+    initials: "RK",
   },
   {
     id: 3,
-    name: "Vikram Singh",
-    email: "vikram.singh@schoolmanage.com",
-    role: "Account Manager",
+    name: "Priya Sharma",
+    email: "priya.sharma@sma.edu",
+    school: "St. Mary's Academy",
+    role: "Principal",
     lastLogin: "Yesterday, 05:15 PM",
     status: "Active",
-    avatar: "/placeholder.svg?height=32&width=32",
-    initials: "VS",
-  },
-  {
-    id: 4,
-    name: "Anita Desai",
-    email: "anita.desai@schoolmanage.com",
-    role: "System Admin",
-    lastLogin: "Yesterday, 03:20 PM",
-    status: "Active",
-    avatar: "/placeholder.svg?height=32&width=32",
-    initials: "AD",
-  },
-  {
-    id: 5,
-    name: "Rajesh Kumar",
-    email: "rajesh.kumar@schoolmanage.com",
-    role: "Support Staff",
-    lastLogin: "Apr 8, 2023, 10:45 AM",
-    status: "On Leave",
-    avatar: "/placeholder.svg?height=32&width=32",
-    initials: "RK",
-  },
-];
-
-const userActivities = [
-  {
-    user: "Rahul Verma",
-    action: "Added a new school: City Montessori School",
-    time: "Today, 09:45 AM",
-    avatar: "/placeholder.svg?height=32&width=32",
-    initials: "RV",
-  },
-  {
-    user: "Priya Sharma",
-    action: "Updated subscription plan for St. Mary's Academy",
-    time: "Today, 08:30 AM",
     avatar: "/placeholder.svg?height=32&width=32",
     initials: "PS",
   },
   {
-    user: "Vikram Singh",
-    action: "Created a new system user account for Anita Desai",
-    time: "Yesterday, 05:15 PM",
+    id: 4,
+    name: "Vikram Mehta",
+    email: "vikram.mehta@mhs.edu",
+    school: "Modern High School",
+    role: "Principal",
+    lastLogin: "Yesterday, 03:20 PM",
+    status: "Active",
     avatar: "/placeholder.svg?height=32&width=32",
-    initials: "VS",
+    initials: "VM",
   },
   {
-    user: "Anita Desai",
-    action: "Generated monthly billing report",
-    time: "Yesterday, 03:20 PM",
+    id: 5,
+    name: "Anita Desai",
+    email: "anita.desai@ise.edu",
+    school: "International School of Excellence",
+    role: "Principal",
+    lastLogin: "Apr 8, 2023, 10:45 AM",
+    status: "On Leave",
     avatar: "/placeholder.svg?height=32&width=32",
     initials: "AD",
+  },
+];
+
+const adminActivities = [
+  {
+    admin: "Dr. Sunita Desai",
+    action: "Added new teacher: Rahul Verma",
+    time: "Today, 09:45 AM",
+    avatar: "/placeholder.svg?height=32&width=32",
+    initials: "SD",
+  },
+  {
+    admin: "Rajesh Kumar",
+    action: "Updated class schedule for Class 10-A",
+    time: "Today, 08:30 AM",
+    avatar: "/placeholder.svg?height=32&width=32",
+    initials: "RK",
+  },
+  {
+    admin: "Priya Sharma",
+    action: "Approved 5 new student admissions",
+    time: "Yesterday, 05:15 PM",
+    avatar: "/placeholder.svg?height=32&width=32",
+    initials: "PS",
+  },
+  {
+    admin: "Vikram Mehta",
+    action: "Generated term-end report cards",
+    time: "Yesterday, 03:20 PM",
+    avatar: "/placeholder.svg?height=32&width=32",
+    initials: "VM",
   },
 ];
 
 const permissionGroups = [
   {
-    name: "System Administrators",
-    description: "Full access to all system features and settings",
-    users: 5,
+    name: "School Principals",
+    description: "Full access to school management features",
+    admins: 24,
   },
   {
-    name: "Support Staff",
-    description: "Access to support tickets and basic system settings",
-    users: 8,
+    name: "Vice Principals",
+    description: "Access to most school management features",
+    admins: 18,
   },
   {
-    name: "Account Managers",
-    description: "Access to school accounts and billing information",
-    users: 6,
-  },
-  {
-    name: "Content Managers",
-    description: "Access to system content and announcements",
-    users: 4,
+    name: "Administrative Staff",
+    description: "Limited access to administrative features",
+    admins: 6,
   },
 ];
 
-const subscriptionPlans = [
+const featureUsage = [
   {
-    id: 1,
-    name: "Standard Plan",
-    features: "Basic features, up to 500 students",
-    price: "2,50,000",
-    activeSchools: 8,
-    status: "Active",
+    name: "Attendance Management",
+    usageCount: "24,892 sessions",
+    percentage: 92,
   },
-  {
-    id: 2,
-    name: "Premium Plan",
-    features: "Advanced features, up to 2000 students",
-    price: "5,00,000",
-    activeSchools: 10,
-    status: "Active",
-  },
-  {
-    id: 3,
-    name: "Enterprise Plan",
-    features: "All features, unlimited students",
-    price: "10,00,000",
-    activeSchools: 4,
-    status: "Active",
-  },
-  {
-    id: 4,
-    name: "Trial Plan",
-    features: "Limited features, up to 100 students",
-    price: "0",
-    activeSchools: 2,
-    status: "Active",
-  },
+  { name: "Grade Management", usageCount: "18,456 sessions", percentage: 85 },
+  { name: "Fee Management", usageCount: "12,345 sessions", percentage: 78 },
+  { name: "Communication Tools", usageCount: "9,876 sessions", percentage: 65 },
+  { name: "Report Generation", usageCount: "7,654 sessions", percentage: 58 },
 ];
 
 const billingTransactions = [
@@ -1397,99 +1200,29 @@ const billingTransactions = [
   },
 ];
 
-const securityLogs = [
+const announcements = [
   {
-    event: "Login Attempt",
-    user: "Rahul Verma",
-    ipAddress: "192.168.1.1",
-    location: "Delhi, India",
-    dateTime: "Today, 09:45 AM",
-    status: "Success",
+    title: "System Maintenance Scheduled",
+    date: "Apr 8, 2023",
+    content:
+      "A system maintenance is scheduled for April 15, 2023, from 2:00 AM to 4:00 AM. The system will be unavailable during this time. Please plan accordingly.",
+    postedBy: "System Admin",
+    for: "All Schools",
   },
   {
-    event: "Password Change",
-    user: "Priya Sharma",
-    ipAddress: "192.168.1.2",
-    location: "Mumbai, India",
-    dateTime: "Today, 08:30 AM",
-    status: "Success",
+    title: "New Feature Release: Enhanced Reporting",
+    date: "Apr 5, 2023",
+    content:
+      "We are excited to announce the release of our enhanced reporting module. This update includes customizable dashboards, advanced filters, and export options.",
+    postedBy: "Product Team",
+    for: "All Schools",
   },
   {
-    event: "Login Attempt",
-    user: "Unknown",
-    ipAddress: "203.45.67.89",
-    location: "Beijing, China",
-    dateTime: "Today, 07:15 AM",
-    status: "Failed",
-  },
-  {
-    event: "API Access",
-    user: "System",
-    ipAddress: "192.168.1.5",
-    location: "Bangalore, India",
-    dateTime: "Today, 06:30 AM",
-    status: "Success",
-  },
-  {
-    event: "Database Backup",
-    user: "System",
-    ipAddress: "192.168.1.10",
-    location: "Mumbai, India",
-    dateTime: "Today, 03:00 AM",
-    status: "Success",
-  },
-];
-
-const complianceReports = [
-  {
-    name: "GDPR Compliance Report",
-    date: "Apr 1, 2023",
-  },
-  {
-    name: "Data Security Audit Report",
-    date: "Mar 15, 2023",
-  },
-  {
-    name: "ISO 27001 Compliance Report",
-    date: "Mar 1, 2023",
-  },
-  {
-    name: "COPPA Compliance Report",
-    date: "Feb 15, 2023",
-  },
-];
-
-const systemNotifications = [
-  {
-    type: "info",
-    title: "System Update Scheduled",
-    message:
-      "A system update is scheduled for April 15, 2023, at 2:00 AM. The system will be unavailable for approximately 30 minutes.",
-    time: "1 hour ago",
-    action: "View Details",
-  },
-  {
-    type: "warning",
-    title: "Storage Space Running Low",
-    message:
-      "The system storage space is running low. Currently at 85% capacity. Please consider cleaning up unnecessary data.",
-    time: "3 hours ago",
-    action: "Manage Storage",
-  },
-  {
-    type: "success",
-    title: "Database Backup Completed",
-    message:
-      "The daily database backup has been completed successfully. All data has been securely stored.",
-    time: "6 hours ago",
-    action: null,
-  },
-  {
-    type: "error",
-    title: "Failed Login Attempts Detected",
-    message:
-      "Multiple failed login attempts detected from IP 203.45.67.89. The IP has been temporarily blocked.",
-    time: "Yesterday",
-    action: "View Security Logs",
+    title: "Annual School Registration Renewal",
+    date: "Apr 3, 2023",
+    content:
+      "This is a reminder that annual school registration renewals are due by May 31, 2023. Please ensure all documentation is updated and submitted before the deadline.",
+    postedBy: "Admin Team",
+    for: "All Schools",
   },
 ];

@@ -144,7 +144,7 @@ export default function FeaturesSection() {
               View pricing →
             </a>
             <a
-              href="/book-demo"
+              href="/contact-us"
               className="text-primary font-medium hover:underline"
             >
               Request a demo →

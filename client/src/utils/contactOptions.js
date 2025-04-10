@@ -1,14 +1,14 @@
 export const countries = [
-  { value: "US", label: "United States" },
-  { value: "IN", label: "India" },
-  { value: "CN", label: "China" },
-  { value: "JP", label: "Japan" },
-  { value: "GB", label: "United Kingdom" },
-  { value: "CA", label: "Canada" },
-  { value: "AU", label: "Australia" },
-  { value: "DE", label: "Germany" },
-  { value: "FR", label: "France" },
-  { value: "BR", label: "Brazil" },
+  { value: "United States", label: "United States" },
+  { value: "India", label: "India" },
+  { value: "China", label: "China" },
+  { value: "Japan", label: "Japan" },
+  { value: "United Kingdom", label: "United Kingdom" },
+  { value: "Canada", label: "Canada" },
+  { value: "Australia", label: "Australia" },
+  { value: "Germany", label: "Germany" },
+  { value: "France", label: "France" },
+  { value: "Brazil", label: "Brazil" },
 ];
 
 export const mediaSources = [

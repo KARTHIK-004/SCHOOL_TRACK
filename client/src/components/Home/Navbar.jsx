@@ -156,7 +156,7 @@ const Navbar = () => {
                 <Link to="/login">Log in</Link>
               </Button>
               <Button asChild>
-                <Link to="/book-demo">Book a demo</Link>
+                <Link to="/contact-us">Book a demo</Link>
               </Button>
             </>
           )}
@@ -271,7 +271,7 @@ const Navbar = () => {
                     <Link to="/login">Log in</Link>
                   </Button>
                   <Button variant="default" className="w-full" asChild>
-                    <Link to="/book-demo">Book a demo</Link>
+                    <Link to="/contact-us">Book a demo</Link>
                   </Button>
                 </>
               )}
