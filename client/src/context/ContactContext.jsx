@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { submitContactForm } from "@/api/contactAPI";
+import { getContacts, submitContactForm } from "@/api/contactAPI";
 
 const ContactContext = createContext({
   isLoading: false,
@@ -10,6 +10,7 @@ const ContactContext = createContext({
 export const ContactProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [contacts, setContacts] = useState([]);
 
   const submitContact = async (formData) => {
     setIsLoading(true);
@@ -25,12 +26,29 @@ export const ContactProvider = ({ children }) => {
     }
   };
 
+  const fetchContacts = async () => {
+    try {
+      setIsLoading(true);
+      const response = await getContacts();
+      setContacts(response.data || []);
+    } catch (error) {
+      console.error("Error fetching contacts:", error);
+      toast.error("Error fetching contacts", {
+        description: error.message || "Please try again later.",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <ContactContext.Provider
       value={{
         isLoading,
         error,
         submitContact,
+        contacts,
+        fetchContacts,
       }}
     >
       {children}
