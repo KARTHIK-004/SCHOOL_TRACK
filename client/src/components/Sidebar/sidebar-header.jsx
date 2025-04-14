@@ -1,8 +1,8 @@
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Plus } from "lucide-react";
-import React, { useState } from "react";
 import { NavUser } from "./nav-user";
 import { ModeToggle } from "../ui/mode-toggle";
 
@@ -16,7 +16,7 @@ function SidebarHeader() {
           placeholder="Search ..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="max-w-sm"
+          className="max-w-sm hidden md:block"
         />
       </div>
       <Button variant="outline" size="icon">

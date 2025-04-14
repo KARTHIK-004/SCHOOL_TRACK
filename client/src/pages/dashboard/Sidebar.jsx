@@ -10,9 +10,7 @@ export default function Sidebar() {
       <AppSidebar />
       <SidebarInset>
         <SidebarHeader />
-        <ScrollArea className="md:h-[calc(100vh-4rem)]">
-          <Outlet />
-        </ScrollArea>
+        <Outlet />
       </SidebarInset>
     </SidebarProvider>
   );
