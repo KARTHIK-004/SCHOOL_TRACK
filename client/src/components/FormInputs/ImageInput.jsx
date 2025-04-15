@@ -9,13 +9,11 @@ import {
 import { Label } from "@/components/ui/label";
 import { CircleHelp } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Card, CardContent } from "../ui/card";
 
 export default function ImageInput({
   title,
   imageUrl,
-  setImageUrl,
-  endpoint,
   toolTipText,
   size = "lg",
   className,
@@ -44,10 +42,7 @@ export default function ImageInput({
           </TooltipProvider>
         )}
       </div>
-      <Card className="overflow-hidden">
-        <CardHeader className="items-center">
-          <CardTitle> </CardTitle>
-        </CardHeader>
+      <Card className="overflow-hidden dark:bg-input/30">
         <CardContent>
           <div className="grid gap-2">
             <img

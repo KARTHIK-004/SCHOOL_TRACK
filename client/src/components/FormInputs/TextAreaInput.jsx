@@ -13,7 +13,7 @@ export default function TextArea({
   placeholder = "",
 }) {
   return (
-    <div className="space-y-1">
+    <div className="space-y-2">
       <Label htmlFor={name} className="text-sm font-medium">
         {label}
       </Label>

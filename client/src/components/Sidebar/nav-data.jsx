@@ -33,6 +33,15 @@ const adminNavigation = [
     ],
   },
   {
+    title: "School Admins",
+    url: "#",
+    icon: Users,
+    items: [
+      { title: "All School Admins", url: "/dashboard/school-admins" },
+      { title: "Create School Admin", url: "/dashboard/school-admin/create" },
+    ],
+  },
+  {
     title: "Contacts",
     url: "#",
     icon: School,

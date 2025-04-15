@@ -9,6 +9,8 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import Sidebar from "./pages/dashboard/Sidebar";
 import { ContactProvider } from "@/context/ContactContext";
 import ContactDirectory from "./pages/dashboard/admin/contact/ContactDirectory";
+import CreateSchoolAdmin from "./pages/dashboard/admin/school-admin/CreateSchoolAdmin";
+import CreateSchool from "./pages/dashboard/admin/schools/CreateSchool";
 
 const App = () => {
   return (
@@ -23,6 +25,14 @@ const App = () => {
             <Route path="/dashboard" element={<Sidebar />}>
               <Route index element={<Dashboard />} />
               <Route path="contacts" element={<ContactDirectory />} />
+
+              {/* School */}
+              <Route path="schools/create" element={<CreateSchool />} />
+              {/* School-Admin */}
+              <Route
+                path="school-admin/create"
+                element={<CreateSchoolAdmin />}
+              />
             </Route>
           </Routes>
         </BrowserRouter>
