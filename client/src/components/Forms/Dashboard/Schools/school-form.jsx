@@ -23,8 +23,12 @@ import {
   subscriptionPlans,
 } from "@/utils/schoolOptions";
 import { countries } from "@/utils/commonOptions";
+import { useNavigate } from "react-router-dom";
+import { createSchool, updateSchool } from "@/api/schoolAPI";
+import { useAuth } from "@/context/AuthContext";
 
 export default function SchoolForm({ editingId, initialData }) {
+  const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [logoUrl, setLogoUrl] = useState(
     initialData?.logoUrl || "/school-logo.png"
@@ -39,22 +43,33 @@ export default function SchoolForm({ editingId, initialData }) {
     defaultValues: initialData || {},
   });
 
+  const navigate = useNavigate();
+
+  // Update the handleFormSubmit function
   const handleFormSubmit = async (data) => {
     try {
       setIsLoading(true);
-      console.log("School Data:", data);
 
-      const formData = {
+      // Add userId to the data before submission
+      const schoolData = {
         ...data,
-        logoUrl,
+        userId: user.id, // Add the userId from the authenticated user
       };
 
-      if (!editingId) {
-        reset();
+      if (editingId) {
+        await updateSchool(editingId, schoolData);
+      } else {
+        await createSchool(schoolData);
       }
+
+      toast.success(editingId ? "School updated!" : "School created!");
     } catch (error) {
-      toast.error("Failed to create school");
-      console.error("Creation error:", error);
+      const errorMessage = error.message.startsWith("Unexpected token")
+        ? "Invalid server response"
+        : error.message;
+
+      toast.error(errorMessage);
+      console.error("Submission error:", error);
     } finally {
       setIsLoading(false);
     }
@@ -64,7 +79,7 @@ export default function SchoolForm({ editingId, initialData }) {
     <form onSubmit={handleSubmit(handleFormSubmit)}>
       <FormHeader
         href="/dashboard/schools"
-        parent="Schools"
+        parent=""
         title="School"
         editingId={editingId}
         loading={isLoading}

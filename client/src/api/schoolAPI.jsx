@@ -3,14 +3,10 @@ import axiosInstance from "./axiosInstance";
 // Create School
 export const createSchool = async (schoolData) => {
   try {
-    const response = await axiosInstance.post("/schools/create", schoolData);
+    const response = await axiosInstance.post("/schools", schoolData);
     return response.data;
   } catch (error) {
-    const message =
-      error.response?.data?.error ||
-      error.response?.data?.message ||
-      "Failed to create school";
-    throw new Error(message);
+    throw new Error(error.response?.data?.message || "Failed to fetch schools");
   }
 };
 
