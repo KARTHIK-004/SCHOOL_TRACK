@@ -1,10 +1,18 @@
 import { createContext, useContext, useState } from "react";
-import { getContacts, submitContactForm } from "@/api/contactAPI";
+import {
+  getContacts,
+  submitContactForm,
+  deleteContact,
+} from "@/api/contactAPI";
+import { toast } from "sonner";
 
 const ContactContext = createContext({
   isLoading: false,
   error: null,
   submitContact: () => {},
+  contacts: [],
+  fetchContacts: () => {},
+  removeContact: () => {},
 });
 
 export const ContactProvider = ({ children }) => {
@@ -41,6 +49,28 @@ export const ContactProvider = ({ children }) => {
     }
   };
 
+  const removeContact = async (contactId) => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      console.log("Deleting contact with ID:", contactId);
+      const response = await deleteContact(contactId);
+      setContacts((prevContacts) =>
+        prevContacts.filter((contact) => contact._id !== contactId)
+      );
+      toast.success("Contact deleted successfully!");
+      return response;
+    } catch (error) {
+      setError(error.message);
+      toast.error("Error deleting contact", {
+        description: error.message || "Please try again later.",
+      });
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <ContactContext.Provider
       value={{
@@ -49,6 +79,7 @@ export const ContactProvider = ({ children }) => {
         submitContact,
         contacts,
         fetchContacts,
+        removeContact,
       }}
     >
       {children}

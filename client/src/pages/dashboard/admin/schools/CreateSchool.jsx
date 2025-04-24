@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, HelpCircle, Settings } from "lucide-react";
+import { ArrowLeft, HelpCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -20,40 +20,34 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { useSchool } from "@/context/SchoolContext";
 
 export default function CreateSchool() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [schoolData, setSchoolData] = useState(null);
+  const { fetchSchoolById, isLoading } = useSchool();
 
-  const handleSubmit = async (schoolData) => {
-    try {
-      if (id) {
-        // await updateSchool(id, schoolData);
-        toast({
-          title: "Success",
-          description: "School updated successfully",
-        });
-      } else {
-        // await createSchool(schoolData);
-        toast({
-          title: "Success",
-          description: "School created successfully",
-        });
-      }
-      // navigate('/dashboard/schools');
-    } catch (error) {
-      console.error("Error saving school:", error);
-      toast({
-        title: "Error",
-        description:
-          error.message || "An error occurred while saving the school",
-        variant: "destructive",
-      });
+  useEffect(() => {
+    if (id) {
+      const loadSchoolData = async () => {
+        try {
+          const data = await fetchSchoolById(id);
+          setSchoolData(data);
+        } catch (error) {
+          toast.error("Error loading school data", {
+            description: "Could not load school details. Please try again.",
+          });
+          navigate("/dashboard/schools");
+        }
+      };
+
+      loadSchoolData();
     }
-  };
+  }, [id, fetchSchoolById, navigate]);
 
   return (
-    <div className="flex min-h-screen w-full flex-col">
+    <div className="flex container mx-auto">
       {/* Main Content */}
       <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
         <div className="flex items-center justify-between">
@@ -93,16 +87,10 @@ export default function CreateSchool() {
           </div>
         </div>
 
-        <div className="container mx-auto max-w-6xl">
-          <Card className="mt-4 border">
-            <CardContent className="p-6">
-              <SchoolForm editingId={id} initialData={handleSubmit} />
-            </CardContent>
-          </Card>
-        </div>
+        <SchoolForm editingId={id} initialData={schoolData} />
 
         <TooltipProvider>
-          <Card className="mt-8">
+          <Card>
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle className="text-xl">

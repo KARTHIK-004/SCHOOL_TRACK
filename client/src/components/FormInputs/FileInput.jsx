@@ -11,7 +11,6 @@ import { Button } from "../ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
 export default function FileInput({
-  register,
   errors,
   name,
   label,
@@ -68,9 +67,9 @@ export default function FileInput({
             <Input
               type="file"
               id={name}
+              label={label}
               className="hidden"
               accept={accept}
-              {...register(name)}
               {...rest}
             />
           </label>

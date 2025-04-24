@@ -22,27 +22,27 @@ import { MoreHorizontal, Pencil, Trash } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
-export default function ActionColumn({ model, editEndpoint, id = "" }) {
+export default function ActionColumn({
+  model,
+  editEndpoint,
+  id = "",
+  onDelete,
+}) {
   const [isAlertOpen, setIsAlertOpen] = useState(false);
 
   async function handleDelete() {
     try {
-      // const response = await deleteContact(id);
-      // if (response?.ok) {
-      //   window.location.reload();
-      // }
-      toast({
-        title: "Deleted Successfully",
-        description: `${model} deleted sucessfully`,
-        type: "success",
+      if (onDelete) {
+        await onDelete(id);
+      }
+      toast.success("Deleted Successfully", {
+        description: `${model} deleted successfully`,
       });
+      setIsAlertOpen(false);
     } catch (error) {
       console.log(error);
-      toast({
-        title: "Deletion Failed",
-        description: `${model} Contact deletion failed. Please try again.`,
-        variant: "destructive",
-        type: "error",
+      toast.error("Deletion Failed", {
+        description: `${model} deletion failed. Please try again.`,
       });
     }
   }
@@ -60,7 +60,7 @@ export default function ActionColumn({ model, editEndpoint, id = "" }) {
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
             <Link
-              href={editEndpoint}
+              to={editEndpoint}
               className="flex items-center cursor-pointer"
             >
               <Pencil className="mr-2 h-4 w-4" />

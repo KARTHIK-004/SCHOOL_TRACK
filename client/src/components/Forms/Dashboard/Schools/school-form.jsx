@@ -24,11 +24,12 @@ import {
 } from "@/utils/schoolOptions";
 import { countries } from "@/utils/commonOptions";
 import { useNavigate } from "react-router-dom";
-import { createSchool, updateSchool } from "@/api/schoolAPI";
 import { useAuth } from "@/context/AuthContext";
+import { useSchool } from "@/context/SchoolContext";
 
 export default function SchoolForm({ editingId, initialData }) {
   const { user } = useAuth();
+  const { addSchool, editSchool, isLoading: contextLoading } = useSchool();
   const [isLoading, setIsLoading] = useState(false);
   const [logoUrl, setLogoUrl] = useState(
     initialData?.logoUrl || "/school-logo.png"
@@ -45,31 +46,27 @@ export default function SchoolForm({ editingId, initialData }) {
 
   const navigate = useNavigate();
 
-  // Update the handleFormSubmit function
   const handleFormSubmit = async (data) => {
     try {
       setIsLoading(true);
 
-      // Add userId to the data before submission
       const schoolData = {
         ...data,
-        userId: user.id, // Add the userId from the authenticated user
+        logoUrl: logoUrl,
+        userId: user.id,
       };
 
       if (editingId) {
-        await updateSchool(editingId, schoolData);
+        await editSchool(editingId, schoolData);
+        // navigate("/dashboard/schools");
       } else {
-        await createSchool(schoolData);
+        await addSchool(schoolData);
+        // reset();
+        // navigate("/dashboard/schools");
       }
-
-      toast.success(editingId ? "School updated!" : "School created!");
     } catch (error) {
-      const errorMessage = error.message.startsWith("Unexpected token")
-        ? "Invalid server response"
-        : error.message;
-
-      toast.error(errorMessage);
       console.error("Submission error:", error);
+      toast.error("Error submitting form");
     } finally {
       setIsLoading(false);
     }
@@ -78,7 +75,7 @@ export default function SchoolForm({ editingId, initialData }) {
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
       <FormHeader
-        href="/dashboard/schools"
+        href="/schools"
         parent=""
         title="School"
         editingId={editingId}
@@ -86,10 +83,10 @@ export default function SchoolForm({ editingId, initialData }) {
       />
 
       <div className="grid grid-cols-12 gap-6 py-8">
-        <div className="lg:col-span-12 col-span-full space-y-6">
+        <div className="lg:col-span-12 col-span-full space-y-8">
           {/* Basic Info */}
-          <div className="shadow-sm border rounded-lg overflow-hidden">
-            <div className="p-6 border-b bg-muted rounded-none">
+          <div className="shadow-sm border rounded-lg bg-card">
+            <div className="p-6 border-b bg-muted rounded-lg">
               <h3 className="text-lg font-semibold flex items-center gap-2">
                 <School className="w-5 h-5 text-primary" />
                 <span>Basic Information</span>
@@ -174,8 +171,8 @@ export default function SchoolForm({ editingId, initialData }) {
           </div>
 
           {/* Address Info */}
-          <div className="shadow-sm border rounded-lg overflow-hidden mt-6">
-            <div className="p-6 border-b bg-muted rounded-none">
+          <div className="shadow-sm border rounded-lg bg-card my-8">
+            <div className="p-6 border-b bg-muted rounded-lg">
               <h3 className="text-lg font-semibold flex items-center gap-2">
                 <MapPin className="w-5 h-5 text-primary" />
                 <span>Address Information</span>
@@ -232,8 +229,8 @@ export default function SchoolForm({ editingId, initialData }) {
           </div>
 
           {/* Administrative Information */}
-          <div className="shadow-sm border rounded-lg overflow-hidden mt-6">
-            <div className="p-6 border-b bg-muted rounded-none">
+          <div className="shadow-sm border rounded-lg bg-card my-8">
+            <div className="p-6 border-b bg-muted rounded-lg">
               <h3 className="text-lg font-semibold flex items-center gap-2">
                 <Settings className="w-5 h-5 text-primary" />
                 <span>Administrative Information</span>
@@ -328,8 +325,8 @@ export default function SchoolForm({ editingId, initialData }) {
           </div>
 
           {/* Facilities & Features */}
-          <div className="shadow-sm border rounded-lg overflow-hidden mt-6">
-            <div className="p-6 border-b bg-muted rounded-none">
+          <div className="shadow-sm border rounded-lg bg-card my-8">
+            <div className="p-6 border-b bg-muted rounded-lg">
               <h3 className="text-lg font-semibold flex items-center gap-2">
                 <Building2 className="w-5 h-5 text-primary" />
                 <span>Facilities & Features</span>
@@ -425,7 +422,7 @@ export default function SchoolForm({ editingId, initialData }) {
                 </div>
               </div>
 
-              <div className="mt-6">
+              <div className="my-8">
                 <TextArea
                   label="Additional Facilities"
                   name="additionalFacilities"
@@ -439,8 +436,8 @@ export default function SchoolForm({ editingId, initialData }) {
           </div>
 
           {/* Media & Documents */}
-          <div className="shadow-sm border rounded-lg overflow-hidden mt-6">
-            <div className="p-6 border-b bg-muted rounded-none">
+          <div className="shadow-sm border rounded-lg bg-card my-8">
+            <div className="p-6 border-b bg-muted rounded-lg">
               <h3 className="text-lg font-semibold flex items-center gap-2">
                 <ImagePlus className="w-5 h-5 text-primary" />
                 <span>Media & Documents</span>
@@ -454,14 +451,12 @@ export default function SchoolForm({ editingId, initialData }) {
                   imageUrl={logoUrl}
                   setImageUrl={setLogoUrl}
                   endpoint="schoolLogo"
-                  className="object-contain w-full max-w-xs mt-2"
+                  className="object-contain w-full max-w-xs my-2"
                 />
                 <FileInput
                   name="registrationDocument"
                   label="Registration Document"
                   description="Upload school registration certificate"
-                  register={register}
-                  errors={errors}
                   accept=".pdf,.jpg,.jpeg,.png"
                 />
               </div>
@@ -469,8 +464,8 @@ export default function SchoolForm({ editingId, initialData }) {
           </div>
 
           {/* Subscription Information  */}
-          <div className="shadow-sm border rounded-lg overflow-hidden mt-6">
-            <div className="p-6 border-b bg-muted rounded-none">
+          <div className="shadow-sm border rounded-lg bg-card mt-8">
+            <div className="p-6 border-b bg-muted rounded-lg">
               <h3 className="text-lg font-semibold flex items-center gap-2">
                 <Settings className="w-5 h-5 text-primary" />
                 <span>Subscription Information</span>
@@ -588,8 +583,8 @@ export default function SchoolForm({ editingId, initialData }) {
       </div>
 
       <FormFooter
-        href="/dashboard/schools"
-        parent="Schools"
+        href="/schools"
+        parent=""
         title="School"
         editingId={editingId}
         loading={isLoading}

@@ -78,8 +78,8 @@ export default function DataTable({ columns, data }) {
       </div>
 
       <div className="rounded-md border">
-        <Table>
-          <TableHeader className="bg-muted/40">
+        <Table className="bg-card">
+          <TableHeader className="bg-muted">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {

@@ -11,7 +11,7 @@ export default function FormFooter({
   parent,
 }) {
   return (
-    <div className="flex items-center gap-2 py-4 justify-between ">
+    <div className="flex items-center justify-between md:justify-end gap-4 shadow p-4 rounded-lg border bg-card">
       <CloseButton href={href} parent={parent} />
       <SubmitButton
         title={editingId ? `Update ${title}` : `Save ${title}`}

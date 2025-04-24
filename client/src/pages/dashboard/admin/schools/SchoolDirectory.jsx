@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { ContactColumns } from "./ContactColoumns.jsx";
+import { SchoolColumns } from "./SchoolColumns.jsx";
 import DataTable from "@/components/DataTable/TableComponents/DataTable";
 import TableHeader from "@/components/DataTable/TableHeader/TableHeader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -11,14 +11,14 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { useContact } from "@/context/ContactContext";
+import { useSchool } from "@/context/SchoolContext";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default function ContactDirectory() {
-  const { contacts, isLoading, fetchContacts } = useContact();
+export default function SchoolDirectory() {
+  const { schools, isLoading, fetchSchools } = useSchool();
 
   useEffect(() => {
-    fetchContacts();
+    fetchSchools();
   }, []);
 
   return (
@@ -27,7 +27,7 @@ export default function ContactDirectory() {
         <div className="flex justify-between items-center">
           <div className="flex flex-col space-y-2 ">
             <h2 className="text-2xl font-bold tracking-tight">
-              Contact Management
+              School Management
             </h2>
             <div className="text-muted-foreground">
               <Breadcrumb>
@@ -37,7 +37,7 @@ export default function ContactDirectory() {
                   </BreadcrumbItem>
                   <BreadcrumbSeparator />
                   <BreadcrumbItem>
-                    <BreadcrumbPage>Contact Directory</BreadcrumbPage>
+                    <BreadcrumbPage>School Directory</BreadcrumbPage>
                   </BreadcrumbItem>
                 </BreadcrumbList>
               </Breadcrumb>
@@ -47,37 +47,20 @@ export default function ContactDirectory() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <Card>
             <CardHeader>
-              <CardTitle className="text-sm">Total Contacts</CardTitle>
+              <CardTitle className="text-sm">Total Schools</CardTitle>
             </CardHeader>
             <CardContent>
               {isLoading ? (
                 <Skeleton className="h-8 w-16" />
               ) : (
-                <div className="text-2xl font-bold">{contacts.length}</div>
+                <div className="text-2xl font-bold">{schools.length}</div>
               )}
               <div className="text-xs text-muted-foreground">All time</div>
             </CardContent>
           </Card>
           <Card>
             <CardHeader>
-              <CardTitle className="text-sm">Unread Contacts</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {isLoading ? (
-                <Skeleton className="h-8 w-16" />
-              ) : (
-                <div className="text-2xl font-bold">
-                  {contacts.filter((contact) => !contact.read).length}
-                </div>
-              )}
-              <div className="text-xs text-muted-foreground">
-                Require attention
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-sm">Recent Contact</CardTitle>
+              <CardTitle className="text-sm">Recent Schools</CardTitle>
             </CardHeader>
             <CardContent>
               {isLoading ? (
@@ -85,8 +68,8 @@ export default function ContactDirectory() {
               ) : (
                 <div className="text-2xl font-bold">
                   {
-                    contacts.filter((contact) => {
-                      const createdAt = new Date(contact.createdAt);
+                    schools.filter((school) => {
+                      const createdAt = new Date(school.createdAt);
                       const thirtyDaysAgo = new Date();
                       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
                       return createdAt >= thirtyDaysAgo;
@@ -95,60 +78,79 @@ export default function ContactDirectory() {
                 </div>
               )}
               <div className="text-xs text-muted-foreground">
-                Submitted in last 30 days
+                Added in last 30 days
               </div>
             </CardContent>
           </Card>
           <Card>
             <CardHeader>
-              <CardTitle className="text-sm">Top Contact Source</CardTitle>
+              <CardTitle className="text-sm">Subscription Rate</CardTitle>
             </CardHeader>
             <CardContent>
               {isLoading ? (
                 <Skeleton className="h-8 w-16" />
               ) : (
-                <div className="text-2xl font-bold capitalize">
-                  {(() => {
-                    if (contacts.length === 0) return "N/A";
-                    const sourceCounts = contacts.reduce((acc, contact) => {
-                      const source = contact.mediaSource || "Unknown";
-                      acc[source] = (acc[source] || 0) + 1;
-                      return acc;
-                    }, {});
-                    let topSource = "Unknown";
-                    let maxCount = 0;
-                    for (const [source, count] of Object.entries(
-                      sourceCounts
-                    )) {
-                      if (count > maxCount) {
-                        maxCount = count;
-                        topSource = source;
-                      }
-                    }
-
-                    return topSource;
-                  })()}
+                <div className="text-2xl font-bold">
+                  {schools.length > 0
+                    ? Math.round(
+                        (schools.filter(
+                          (school) => school.subscriptionPlan === "Premium"
+                        ).length /
+                          schools.length) *
+                          100
+                      )
+                    : 0}
+                  %
                 </div>
               )}
               <div className="text-xs text-muted-foreground">
-                Most common referral source
+                Premium subscriptions
               </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-sm">Average Students</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {isLoading ? (
+                <Skeleton className="h-8 w-16" />
+              ) : (
+                <div className="text-2xl font-bold">
+                  {schools.length > 0
+                    ? Math.round(
+                        schools.reduce(
+                          (sum, school) =>
+                            sum + (parseInt(school.numberOfStudents) || 0),
+                          0
+                        ) / schools.length
+                      )
+                    : 0}
+                </div>
+              )}
+              <div className="text-xs text-muted-foreground">Per school</div>
             </CardContent>
           </Card>
         </div>
         <div>
           <TableHeader
-            title="Contacts"
-            linkTitle="Add Contact"
-            href="/contact-us"
-            data={contacts}
-            model="contact"
+            title="Schools"
+            linkTitle="Add School"
+            href="/dashboard/schools/create"
+            data={schools}
+            model="school"
           />
           <div className="py-2">
-            {contacts.length > 0 ? (
-              <DataTable data={contacts} columns={ContactColumns} />
+            {isLoading ? (
+              <div className="space-y-4">
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
+              </div>
+            ) : schools.length > 0 ? (
+              <DataTable data={schools} columns={SchoolColumns} />
             ) : (
-              <p className="text-center">No contacts found.</p>
+              <p className="text-center">No schools found.</p>
             )}
           </div>
         </div>

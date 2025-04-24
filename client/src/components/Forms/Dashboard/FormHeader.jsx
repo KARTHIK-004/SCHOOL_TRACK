@@ -18,8 +18,9 @@ export default function FormHeader({
   function goBack() {
     navigate();
   }
+
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex items-center justify-between bg-muted shadow p-4 rounded-lg border">
       <div className="flex items-center gap-4">
         <Button
           onClick={goBack}
@@ -31,7 +32,7 @@ export default function FormHeader({
           <ChevronLeft className="h-4 w-4" />
           <span className="sr-only">Back</span>
         </Button>
-        <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
+        <h1 className="text-2xl font-bold tracking-tight">
           {editingId ? "Update" : "Create"} {title}
         </h1>
       </div>
